@@ -14,7 +14,7 @@ class Stream:
     
     @classmethod    
     def from_path(cls, rute):
-        stream = open(rute,"r")
+        stream = open(rute, "r")
         out = cls(stream)
         out.pos = 0
         out.line = 1
@@ -41,23 +41,24 @@ class Stream:
     def tell(self):
         return (self.stream.tell(), self.pos, self.line, self.column)
 
-    def read(self,n=1):
+    def read(self, n=1):
         readed = self.stream.read(n)
         self.pos += len(readed)
         lines = readed.count("\n")
         if lines!=0:
             self.column = len(readed) - readed.rindex("\n")
             
-        self.line+=lines
+        self.line +=lines
         return readed
 
-    def lookup(self,n=1):
+    def lookup(self, n=1):
         state = self.tell()
         out = self.read(n)
         self.seek(state)
         return out
 
-
+    def __repr__(self):
+        return "pos:{},line:{},col:{}".format(self.pos, self.line, self.column)
 
 
         
